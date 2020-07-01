@@ -1,11 +1,13 @@
 <?php
 
+namespace Alltube\Robo\Plugin\Commands;
+
 use Robo\Tasks;
 
 /**
  * Manage robo tasks.
  */
-class RoboFile extends Tasks
+class ReleaseCommand extends Tasks
 {
 
     /**
@@ -23,14 +25,14 @@ class RoboFile extends Tasks
 
         $tmpDir = $this->_tmpDir();
 
-        $filename = 'alltube-' . trim($result->getOutputData()) . '.zip';
+        $filename = 'alltube-' . trim((string) $result->getOutputData()) . '.zip';
 
         $this->taskFilesystemStack()
             ->remove($filename)
             ->run();
 
         $this->taskGitStack()
-            ->cloneRepo(__DIR__, $tmpDir)
+            ->cloneRepo(__DIR__ . '/../../../../', $tmpDir)
             ->run();
 
         $this->taskComposerInstall()
